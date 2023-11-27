@@ -5,38 +5,84 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card-container {
+  background-color: #333;
+  border: solid red 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.card-container__twitter-card {
+  background-color: transparent;
+  width: 400px;
+  height: 100px;
+  border: solid green 1px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.card {
-  padding: 2em;
+.card-container__twitter-card-image {
+  border-radius: 50%;
+
 }
 
-.read-the-docs {
-  color: #888;
+.card-container__twitter-card-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+
+
+}
+
+.card-container__twitter-card-profile>* {
+  margin: 0;
+  padding: 0;
+
+}
+
+.twitter-card-btn {
+  width: 90px;
+  height: 30px;
+  color: #333;
+  font-size: 14px;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px #333 solid;
+}
+
+.twitter-card-btn:hover {
+  opacity: 0.6;
+}
+
+.twitter-card-btn:active {
+  transform: scale(.95);
+}
+
+.twitter-card-btn.isFollowing {
+  color: white;
+  font-size: 14px;
+  border: 1px white solid;
+  background-color: transparent;
+}
+
+.twitter-card-btn.isFollowing:hover {
+
+  color: red;
+  font-size: 14px;
+  border: 1px red solid;
+  font-weight: bold;
+  background-color: rgb(116, 14, 14, .3);
 }

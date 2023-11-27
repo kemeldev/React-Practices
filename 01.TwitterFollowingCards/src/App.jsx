@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import "./App.css";
+import TwitterCard from "./twitterCard"
 
+export default function App() {  
+    const users = [
+    {
+      name: "Miguel Angel Duran",
+      userName: "midudev",
+      profilePictureUrl: "https://randomuser.me/api/portraits/med/men/29.jpg",
+      isFollowing: true
+    },
+    {
+      name: "Mr Vitan Danchuck",
+      userName: "Vitanies",
+      profilePictureUrl: "https://randomuser.me/api/portraits/med/men/41.jpg",
+      isFollowing: true
+    },
+    {
+      name: "Melissa Bowman",
+      userName: "BowmnasFem",
+      profilePictureUrl: "https://randomuser.me/api/portraits/med/women/85.jpg",
+      isFollowing: false
+    },
+  ];
+  
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="card-container">
 
-export default App
+      
+      {users.map(({name, userName, profilePictureUrl, isFollowing}) => (      
+        
+        <TwitterCard          
+          key={name}
+          name={name}
+          userName={userName}
+          profilePictureUrl={profilePictureUrl}
+          initialFollowing={isFollowing}
+          >                
+              {name}
+        </TwitterCard>
+        
+      ))}
+    </div>
+  );
+}
