@@ -37,10 +37,10 @@ function App () {
       if (arr[a] && arr[a] === arr[b] && arr[a] === arr[c]) {
         return arr[a]
       } 
-    }
+    }   
 
     return null
-  }
+  }  
 
   const checkEndGame = (arr)=>{
 
@@ -51,6 +51,8 @@ function App () {
     turnX : "✖️",
     turnO : "⚪"
   }  
+
+  console.log(turns);
 
   const [turn , setTurn] = useState(() => {
     const turnFromStorage = window.localStorage.getItem('turn')
