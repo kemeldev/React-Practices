@@ -5,38 +5,111 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  background-color: #221;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ttt-container {
+  border: 1px green solid;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.ttt-resetButton {
+  border: 2px gray solid;
+  background-color: gray;
+  border-radius: 10px;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  transition: all 0.1s ease;
 }
 
-.card {
-  padding: 2em;
+.ttt-resetButton:active {
+  transform: scale(.95);
+  opacity: 0.8;
+  background-color: #221;
 }
 
-.read-the-docs {
-  color: #888;
+.ttt-gameContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  border: 1px red solid;
+  margin: 1.5rem;
+  padding: 0;
+}
+
+.ttt-gameContainer-box {
+  height: 75px;
+  width: 75px;
+  border: 1px white solid;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 25px;
+
+}
+
+.ttt-gameContainer-box:hover {
+  background-color: rgba(240, 5, 5, 0.1);
+}
+
+.ttt-turnsContainer-box {
+  height: 75px;
+  width: 75px;
+  border: 1px white solid;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  font-size: 25px;
+
+
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.ttt-turnsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+}
+
+
+
+.ttt-winnerModal {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgb(17, 17, 1, .8);
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
 }
