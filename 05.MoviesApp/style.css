@@ -146,3 +146,16 @@ li {
 img {
   width: 200px;
 }
+
+input {
+  height: 30px;
+  color: darkblue;
+  background-color: gray;
+  border-radius: 10px;
+  margin: 5px;
+  font-size: medium;
+}
+
+input::placeholder {
+  color: black;
+}
