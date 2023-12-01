@@ -1,107 +1,95 @@
-import { useEffect, useRef, useState } from 'react'
-import Movies from './Movies'
+import './style.css'
+import { useMovies } from './hooks/useMovies.js'
+import { Movies } from './components/Movies.jsx'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import debounce from 'just-debounce-it'
 
-export default function App () {
-  const inputRef = useRef()
-  // Validacion de forma controlada del formulario, utiliza un stado, es decir, Controlado por react, vs no controlador por react
-  const [query, setQuery] = useState('')
+function useSearch () {
+  const [search, updateSearch] = useState('')
   const [error, setError] = useState(null)
   const isFirstInput = useRef(true)
 
-  const counter = useRef(0)
-
-  let i = 0
-  i++
-  console.log(i, counter.current++)
-
-  // Validacion de formularios se puede hacer a través de la funcion o mediante un efecto
-  const handleChange = (e) => {
-    const newQuery = e.target.value
-    setQuery(newQuery)
-
+  useEffect(() => {
     if (isFirstInput.current) {
-      isFirstInput.current = query === ''
+      isFirstInput.current = search === ''
       return
     }
 
-    if (newQuery === '') {
-      setError('No se puede buscar una pelicula vacia')
+    if (search === '') {
+      setError('No se puede buscar una película vacía')
       return
     }
-    if (newQuery.match(/^\d+$/)) {
-      setError('No se puede buscar una pelicula por numero')
+
+    if (search.match(/^\d+$/)) {
+      setError('No se puede buscar una película con un número')
       return
     }
-    if (newQuery.length < 3) {
-      setError('La busqueda debe tener al menos 3 caracteres')
+
+    if (search.length < 3) {
+      setError('La búsqueda debe tener al menos 3 caracteres')
       return
     }
 
     setError(null)
+  }, [search])
+
+  return { search, updateSearch, error }
+}
+
+function App () {
+  const [sort, setSort] = useState(false)
+
+  const { search, updateSearch, error } = useSearch()
+  const { movies, loading, getMovies } = useMovies({ search, sort })
+
+  const debouncedGetMovies = useCallback(
+    debounce(search => {
+      console.log('search', search)
+      getMovies({ search })
+    }, 300)
+    , [getMovies]
+  )
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    getMovies({ search })
   }
 
-  // Validacion mediante effecto
-  // useEffect(() => {
-  //   if (query === '') {
-  //     setError('No se puede buscar una pelicula vacia')
-  //     return
-  //   }
-  //   if (query.match(/^\D+$/)) {
-  //     setError('No se puede buscar una pelicula por numero')
-  //     return
-  //   }
-  //   if (query.length < 3) {
-  //     setError('La busqueda debe tener al menos 3 caracteres')
-  //     return
-  //   }
+  const handleSort = () => {
+    setSort(!sort)
+  }
 
-  //   setError(null)
-  // }, [query])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    // Different ways to get data from a FORM
-
-    // With useRef
-    const value = inputRef.current.value
-    console.log('value from using useRef ', value)
-
-    // // With FormData and using the DOM
-    // const data = new window.FormData(e.target)
-    // const query = data.get('query')
-    // console.log('Value with form Data Instance', query)
-
-    // // When we have several fields we can do it though an object
-    // const fields = Object.fromEntries(new FormData(e.target))
-    // console.log('Object created with object Entries and form data', fields)
+  const handleChange = (event) => {
+    const newSearch = event.target.value
+    updateSearch(newSearch)
+    debouncedGetMovies(newSearch)
   }
 
   return (
     <div className='page'>
+
       <header>
-        <h1>Movie Search App</h1>
+        <h1>Buscador de películas</h1>
         <form className='form' onSubmit={handleSubmit}>
           <input
-            name='query' onChange={handleChange} ref={inputRef} placeholder='Star Wars...'
+            style={{
+              border: '1px solid transparent',
+              borderColor: error ? 'red' : 'transparent'
+            }} onChange={handleChange} value={search} name='query' placeholder='Avengers, Star Wars, The Matrix...'
           />
-          {/* <input
-            name='another' ref={inputRef} placeholder='Star Wars...'
-          />
-          <input
-            name='test' ref={inputRef} placeholder='Star Wars ...'
-          />
-          <input
-            name='example' ref={inputRef} placeholder='Star Wars ...'
-          /> */}
-          <input name='checkbox' className='checkbox' type='checkbox' />
-          <button type='submit' className='button'>Search movies</button>
+          <input type='checkbox' onChange={handleSort} checked={sort} />
+          <button type='submit'>Buscar</button>
         </form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </header>
+
       <section>
-        <Movies />
+        {
+          loading ? <p>Cargando...</p> : <Movies movies={movies} />
+        }
       </section>
     </div>
   )
 }
+
+export default App

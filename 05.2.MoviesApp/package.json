@@ -1,5 +1,5 @@
 {
-  "name": "05-moviesapp",
+  "name": "05-2-moviesapp",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,10 +15,9 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "just-debounce-it": "3.2.0"
+    "react-dom": "^18.2.0"
   },
   "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
+    "extends": "standard"
   }
 }
