@@ -1,35 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
-import responseJSON from './mocks/response.json'
 import noResponseJSON from './mocks/noResponse.json'
 
-const mockResults = responseJSON.Search
-
-export default function App () {
-  const API_KEY = '4287ad07'
-  const temporalSearch = 'Avengers'
-  const URL = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${temporalSearch}&page=1`
-
+function useSearch () {
   const [search, setSearch] = useState(null)
   const [error, setError] = useState(null)
-  const inputRef = useRef()
   const isFirstInput = useRef(true)
 
   console.log('Search =', search)
   console.log('isFirstInput =', isFirstInput.current)
 
   // This functions returns the search value comming from input when the submit bottom is pressed
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const data = new FormData(e.target)
-    data.get('query')
-    // console.log('From Form Data ', data.get('query'))
-
-    const value = inputRef.current.value
-    console.log('Search Value when submit button click =', value)
-
-    return setSearch(value)
-  }
 
   // Every time the search value changes when submit button is clicked, this "form" is evaluated
   useEffect(() => {
@@ -54,10 +34,55 @@ export default function App () {
     setError(null)
   }, [{ search }])
 
+  return { search, setSearch, error }
+}
+
+// function useMovies ({ search }) {
+//   console.log(search)
+// }
+
+export default function App () {
+  const { search, setSearch, error } = useSearch()
+
+  const [responseMovies, setResponseMovies] = useState([])
+
+  const inputRef = useRef() // this is just used as an example than a value from input can be taken using useRef
+
+  const fetchMovies = async () => {
+    if (search === null) return []
+
+    try {
+      const API_KEY = '4287ad07'
+      const URL = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${search}&page=1`
+      const response = await fetch(URL)
+      const data = await response.json()
+      const moviesFetched = data.Search
+      setResponseMovies(moviesFetched)
+    } catch (error) {
+      throw new Error('Error searching movies')
+    }
+  }
+
   const handleChange = (e) => {
     const newSearch = e.target.value
     setSearch(newSearch)
+    fetchMovies()
+
     console.log('Onchange function, search Value', newSearch)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    fetchMovies()
+
+    const data = new FormData(e.target)
+    data.get('query')
+    // console.log('From Form Data ', data.get('query'))
+
+    const value = inputRef.current.value
+    // console.log('Search Value when submit button click =', value)
+
+    return setSearch(value)
   }
 
   return (
@@ -77,9 +102,10 @@ export default function App () {
 
     <main>
       <ul>
-        {mockResults.length > 1
+
+        {responseMovies?.length > 1
         // Pending Create a component of movies
-          ? mockResults.map((result) => (
+          ? responseMovies.map((result) => (
             <li className='movie'
                 key={result.imdbID}>
                 <h3>{result.Title}</h3>
