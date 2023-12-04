@@ -1,0 +1,19 @@
+.footer {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  text-align: left;
+  background: rgba(0, 0, 0, .7);
+  margin: 0;
+  padding: 2px 20px;
+  border-radius: 32px;
+  opacity: .95;
+  backdrop-filter: blur(8px);
+}
+
+.footer,
+h4,
+h5,
+span {
+  margin: 5px;
+}
