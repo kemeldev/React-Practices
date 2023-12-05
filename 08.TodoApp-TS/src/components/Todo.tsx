@@ -1,4 +1,4 @@
-import { type Todo as TodoType } from "../types"
+import { TodoId, type Todo as TodoType } from "../types"
 
 // se podria hacer de esta manera 
 // interface Props {
@@ -11,12 +11,21 @@ import { type Todo as TodoType } from "../types"
 // type Props = TodoType
 
 interface Props extends TodoType {
-  onRemoveTodo: (id: string) => void
+  onToggleCompleteTodo: ({ id, completed }: Pick<TodoType, 'id' | 'completed'>) => void
+  onRemoveTodo: ({ id }: TodoId) => void
 }
 
 
 
-export const Todo: React.FC<Props> = ({ id, title, completed, onRemoveTodo }) => {
+export const Todo: React.FC<Props> = ({ id, title, completed, onRemoveTodo, onToggleCompleteTodo }) => {
+
+  const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    onToggleCompleteTodo({
+      id,
+      completed: event.target.checked
+    })
+  }
+
   return (
     <div className="view">
       <input
@@ -24,13 +33,15 @@ export const Todo: React.FC<Props> = ({ id, title, completed, onRemoveTodo }) =>
         className="toggle"
         checked={completed}
         type="checkbox"
-        onChange={() => { }}
+        // se puede hacer de ambas formas
+        // onChange={(e) => { onToggleCompleteTodo({ id, completed: e.target.checked }) }}
+        onChange={handleChangeCheckBox}
       />
       <label>{title}</label>
       <button
         title="destroyBtn"
         className="destroy"
-        onClick={() => onRemoveTodo(id)}
+        onClick={() => onRemoveTodo({ id })}
       />
     </div>
   )
