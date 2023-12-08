@@ -15,9 +15,9 @@
 body {
   width: 100vw;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
+
   min-width: 320px;
   min-height: 100vh;
 }
@@ -56,7 +56,8 @@ header {
 }
 
 table {
-  width: 90vw;
+  width: 100vw;
+  border: solid red 1px
 }
 
 th {
@@ -74,4 +75,13 @@ th {
 .row_btn:hover {
   border-color: #646cff;
   opacity: 0.5;
+}
+
+.table_container {
+  position: relative;
+
+  justify-content: space-evenly;
+  border: 1px solid green;
+  width: 100vw;
+  margin: 0;
 }
