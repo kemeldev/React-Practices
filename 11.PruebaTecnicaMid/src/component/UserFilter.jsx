@@ -1,4 +1,4 @@
-export default function UsersFilter ({ users, showColor }) {
+export default function UsersFilter ({ users, showColor, deleteRow }) {
   return (
     <>
       <table>
@@ -12,6 +12,8 @@ export default function UsersFilter ({ users, showColor }) {
           </tr>
         </thead>
 
+        {/* // Forma alternativa para cambiar estado y colores
+        <tbody className={showColor ? 'table_showColors' : ''}> */}
         <tbody>
           {
             users.map((user, index) => {
@@ -29,19 +31,15 @@ export default function UsersFilter ({ users, showColor }) {
               <td>{user.name.first} Index={index}</td>
               <td>{user.name.last}</td>
               <td>{user.location.country}</td>
-              <td> <button className="row_btn">Delete Row</button> </td>
+              <td> <button
+                      className="row_btn"
+                      onClick={() => deleteRow(user.email)}
+                    >Delete Row</button></td>
             </tr>
               )
             })
           }
 
-          {/* <tr>
-            <td>Photo Here</td>
-            <td>Charlie</td>
-            <td>asdads</td>
-            <td>Brazil</td>
-            <td>Delete Row</td>
-          </tr> */}
         </tbody>
       </table>
     </>
