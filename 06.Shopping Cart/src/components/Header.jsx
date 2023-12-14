@@ -4,7 +4,8 @@ export function Header ({ changeFilters }) {
   return (
     <header>
       <h1>React Shop: 🛒 </h1>
-      <Filters changeFilters={changeFilters} />
+      {/* <Filters changeFilters={changeFilters} /> eliminamos el prop drilling */}
+      <Filters />
     </header>
   )
 }

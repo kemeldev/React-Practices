@@ -1,15 +1,19 @@
-import { useState, useId } from 'react'
+import { useId } from 'react'
 import './Filters.css'
+import { useFilters } from '../hooks/useFilters'
 
-export function Filters ({ changeFilters }) {
-  const [minPrice, setMinPrice] = useState(0)
+// export function Filters ({ changeFilters }) eliminamos el prop drilling {
+export function Filters () {
+  // traemos el setfilters del useFilters para tener un estado global y lo utilizamos en las funciones de handleChange...
+  const { filters, setFilters } = useFilters() // estado global
+
+  // const [minPrice, setMinPrice] = useState(0) // estado local, lo eliminamos para evitar tener 2 fuentes de la verdad
   const minPriceFilteredID = useId()
   const categoryFilterID = useId()
 
   // This is not the best practice, cause we are updating the state of a parent from a child
   const handleChangeMinPrice = (e) => {
-    setMinPrice(e.target.value)
-    changeFilters(prevState => ({
+    setFilters(prevState => ({
       ...prevState,
       minPrice: e.target.value
     })
@@ -19,7 +23,7 @@ export function Filters ({ changeFilters }) {
 
   // This is not the best practice, cause we are updating the state of a parent from a child
   const handleChangeCategory = (e) => {
-    changeFilters(previousFilters => ({
+    setFilters(previousFilters => ({
       ...previousFilters,
       category: e.target.value
     }))
@@ -35,8 +39,9 @@ export function Filters ({ changeFilters }) {
           min='0'
           max='1000'
           onChange={handleChangeMinPrice}
+          value={filters.minPrice}
         />
-        <span>$ {minPrice}</span>
+        <span>$ {filters.minPrice}</span>
       </div>
 
       <div>

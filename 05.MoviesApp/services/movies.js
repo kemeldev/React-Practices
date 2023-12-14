@@ -9,7 +9,7 @@ export const searchMovies = async ({ search }) => {
 
     const movies = json.Search
 
-    console.log(movies);
+    console.log(movies)
 
     return movies?.map(movie => ({
       id: movie.imdbID,

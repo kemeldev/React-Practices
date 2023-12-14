@@ -3,6 +3,17 @@ import './App.css'
 // eslint-disable-next-line no-unused-vars
 import UsersFilter from './component/UserFilter'
 
+const fetchUsers = async ({ currentPage }) => {
+  const URL = `https://randomuser.me/api/?results=5&page=${currentPage}`
+  const response = await fetch(URL)
+
+  if (!response.ok) throw new Error('Error in the request')
+
+  const data = await response.json()
+  const { results } = data
+  return results
+}
+
 function App () {
   const [users, setUsers] = useState([])
   const [showColor, setColor] = useState(false)
@@ -17,19 +28,11 @@ function App () {
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
-    const URL = `https://randomuser.me/api/?results=5&page=${currentPage}`
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true)
 
-        const response = await fetch(URL)
-
-        console.log(response.ok, response.status, response.statusText)
-
-        if (!response.ok) throw new Error('Error in the request')
-
-        const data = await response.json()
-        const { results } = data
+        const results = await fetchUsers({ currentPage })
 
         setUsers((prevState) => {
           if (prevState === []) {
@@ -50,8 +53,46 @@ function App () {
       }
     }
 
-    fetchUsers()
+    fetchData()
   }, [currentPage])
+
+  // // Before refactoring
+  // useEffect(() => {
+  //   const URL = `https://randomuser.me/api/?results=5&page=${currentPage}`
+  //   const fetchUsers = async () => {
+  //     try {
+  //       setLoading(true)
+
+  //       const response = await fetch(URL)
+
+  //       console.log(response.ok, response.status, response.statusText)
+
+  //       if (!response.ok) throw new Error('Error in the request')
+
+  //       const data = await response.json()
+  //       const { results } = data
+
+  //       setUsers((prevState) => {
+  //         if (prevState === []) {
+  //           return results
+  //         } else {
+  //           const newUsers = [...prevState, ...results]
+  //           originalUsers.current = newUsers
+  //           return newUsers
+  //         }
+  //       })
+
+  //       setError(false)
+  //     } catch (error) {
+  //       console.error('Error fetching users:', error)
+  //       setError(true)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  //   fetchUsers()
+  // }, [currentPage])
 
   const toggleColors = () => {
     setColor(prevState => !prevState)

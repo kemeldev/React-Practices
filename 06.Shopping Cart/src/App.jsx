@@ -6,18 +6,22 @@ import { Header } from './components/Header'
 import Footer from './components/Footer'
 import { DEVELOPMENT } from './config'
 import { useFilters } from './hooks/useFilters'
+import { Cart } from './components/Cart'
+import { CartProvider } from './context/cartContext'
 
 function App () {
   const [products] = useState(InitialProducts)
-  const { filterProducts, setFilters, filters } = useFilters()
+  const { filterProducts, filters } = useFilters()
 
   return (
-    <>
-      <Header changeFilters={setFilters} />
+    <CartProvider>
+      {/* <Header changeFilters={setFilters} /> eliminamos el prop drilling */}
+      <Header />
+      <Cart />
       <Products products={filterProducts(products)} />
       {DEVELOPMENT && <Footer filters={filters} />}
 
-    </>
+    </CartProvider>
   )
 }
 
